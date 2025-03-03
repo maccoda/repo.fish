@@ -13,5 +13,5 @@ function _repo_main
         git stash pop >/dev/null
     end
     _repo_prune_branches --force --no-fetch
-    git $_repo_log_cmd
+    git $_repo_log_cmd -10
 end

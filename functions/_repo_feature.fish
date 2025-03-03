@@ -22,7 +22,7 @@ function _repo_feature
 
     # Create the new branch for the feature
     if test -z $argv[1]
-        read --prompt-str "Enter branch name: " --local branch_name
+        read --prompt-str "Enter branch name: " --function branch_name
     else
         set branch_name $argv
     end

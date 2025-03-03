@@ -6,6 +6,14 @@ repository (namely in the pull request and mainline development model).
 This tool is fairly coupled with GitHub as it currently exists but several of
 the commands just operate on git independently.
 
+## Install
+
+Install using Fisher:
+
+```console
+fisher install maccoda/repo.fish
+```
+
 ## Commands
 
 ### repo cd
