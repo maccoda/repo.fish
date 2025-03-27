@@ -5,7 +5,7 @@ function _repo_prune_branches
     if ! set -q _flag_n
         _repo_spin --title "Fetching all branches" -- git fetch --all --prune --quiet
     end
-    set removed_branches (git branch -vv | grep ": gone]" | tr -s ' ' | cut -d ' ' -f 2)
+    set removed_branches (git branch -vv | grep -E ": gone]" | tr -s ' ' | cut -d ' ' -f 2)
     for branch in $removed_branches
         if set -q _flag_f
             git branch -D $branch
@@ -24,7 +24,7 @@ function _repo_prune_branches
             end
         end
     end
-    set local_only_branches (git branch -vv | grep --invert-match "(origin|\*)" | tr -s ' ' | cut -d ' ' -f 2)
+    set local_only_branches (git branch -vv | grep -E --invert-match "(origin|\*)" | tr -s ' ' | cut -d ' ' -f 2)
     echo "Attempting to delete local only branches"
     for branch in $local_only_branches
         git branch -d $branch

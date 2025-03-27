@@ -6,3 +6,5 @@ complete --command repo --long-option from-current --condition "__fish_seen_subc
 complete --command repo --condition "not __fish_seen_subcommand_from log" --no-files
 complete --command repo --condition "__fish_seen_subcommand_from $branch_commands" --arguments "(git branch --format='%(refname:short)')"
 complete --command repo --condition "__fish_seen_subcommand_from diff" --arguments "main tag"
+complete --command repo --long-option force --condition "__fish_seen_subcommand_from prune-branches"
+complete --command repo --long-option no-fetch --condition "__fish_seen_subcommand_from prune-branches"
