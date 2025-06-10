@@ -13,6 +13,9 @@ function _repo_setup
     else
         echo "Running from current directory"
     end
+    if functions -q _repo_init_hook
+        _repo_init_hook
+    end
 
     cd $start_dir
 end
