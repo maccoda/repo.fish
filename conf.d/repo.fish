@@ -1,5 +1,5 @@
 if ! set --query _repo_log_cmd
-    set --global _repo_log_cmd log --pretty="format:%C(yellow)%h%C(reset) %C(blue)%<(15)%an%C(reset) %C(magenta)%cs%C(reset) %s %C(red)%d%C(reset)"
+    set --global _repo_log_cmd log --pretty="format:%C(yellow)%h%C(reset) %C(magenta)%cs%C(reset) %s %C(blue)[%an]%C(reset) %C(red)%d%C(reset)"
 end
 
 function _repo_install --on-event repo_install

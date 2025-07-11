@@ -41,7 +41,7 @@ function repo
     else if test $command = log
         _repo_log $args
     else if test $command = co-pr
-        gh pr list | cut -f1,2 | fzf | cut -f1 | xargs gh pr checkout
+        gh pr list | cut -f1,2 | fzf --height "~10" | cut -f1 | xargs gh pr checkout
     else if test $command = merge
         _repo_merge $args
     else

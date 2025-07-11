@@ -129,3 +129,5 @@ Checkout a pull request currently on GitHub
 ## Future ideas
 
 - Support other hosted git platforms
+- Find which tag includes a specific change to check which release a commit was
+  captured in
