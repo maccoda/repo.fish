@@ -13,7 +13,13 @@ function _repo_feature
     end
 
     if ! set -q _flag_c
-        set main_branch (_git_main_branch)
+        git switch main &>/dev/null; or git switch master &>/dev/null
+        if test $status -ne 0
+            echo "ERROR: Unknown main branch"
+            git branch
+            return 1
+        end
+        set main_branch (git branch --show-current)
         echo "Determined main branch is $main_branch"
         _repo_spin --title "Pulling latest changes..." -- git pull --ff --quiet origin $main_branch
     else
