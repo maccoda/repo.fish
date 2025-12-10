@@ -41,7 +41,8 @@ function repo
     else if test $command = log
         _repo_log $args
     else if test $command = co-pr
-        gh pr list | cut -f1,2 | fzf --height "~10" | cut -f1 | xargs gh pr checkout
+        set template '{{range .}}{{tablerow (printf "%v" .number) (printf "@%v" .author.login) (truncate 60 .title) .reviewDecision (timeago .createdAt | printf "C: %v") }}{{end}}'
+        gh pr list --json number,title,author,createdAt,reviewDecision --template $template | fzf --height "~10" | cut -f1 -d ' ' | xargs gh pr checkout
     else if test $command = merge
         _repo_merge $args
     else
