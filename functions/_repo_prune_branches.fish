@@ -6,6 +6,7 @@ function _repo_prune_branches
         _repo_spin --title "Fetching all branches" -- git fetch --all --prune --quiet
     end
     set removed_branches (git branch -vv | grep -E ": gone]" | tr -s ' ' | cut -d ' ' -f 2)
+    echo "Attempting to delete branches removed upstream"
     for branch in $removed_branches
         if set -q _flag_f
             git branch -D $branch
