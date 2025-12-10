@@ -1,4 +1,13 @@
 function _repo_main
+    argparse r/refresh -- $argv
+
+    # Refresh just updates the current main branch to origin's main branch position without changing branch
+    if set -q _flag_r
+        _repo_spin --title "Refreshing origin" -- git fetch origin main:main
+        or _repo_spin --title "Refreshing origin" -- git fetch origin master:master
+
+        return
+    end
     set repo_status (git status --porcelain)
     if test -n "$repo_status"
         echo "Detected local changes, stashing all"
@@ -26,5 +35,6 @@ function _repo_main
         git stash pop >/dev/null
     end
     _repo_prune_branches --force --no-fetch
-    git $_repo_log_cmd -10
+    set log_pretty --pretty='format:%C(red)%h%C(reset) %C(yellow)%cs%C(reset) %s %C(cyan)[%an]%C(reset) %C(blue)%d%C(reset)'
+    git log --graph --pretty='%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit -10
 end

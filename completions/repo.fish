@@ -8,3 +8,4 @@ complete --command repo --condition "__fish_seen_subcommand_from $branch_command
 complete --command repo --condition "__fish_seen_subcommand_from diff" --arguments "main tag"
 complete --command repo --long-option force --condition "__fish_seen_subcommand_from prune-branches"
 complete --command repo --long-option no-fetch --condition "__fish_seen_subcommand_from prune-branches"
+complete --command repo --long-option refresh --old-option r --condition "__fish_seen_subcommand_from main"
