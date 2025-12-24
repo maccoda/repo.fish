@@ -37,7 +37,24 @@ function repo
     else if test $command = cd
         _repo_cd $args
     else if test $command = pr
-        gh pr create --draft $args && sleep 5 && gh pr checks --watch && gh pr ready
+        set pr_state (gh pr view --json "state,isDraft")
+        if test $status -ne 0
+            gh pr create --draft $args && sleep 5 && gh pr checks --watch && gh pr ready
+        else if test "$(echo $pr_state | jq '.state =="OPEN" and .isDraft == false')" = true
+            echo "PR already open and ready"
+            # TODO: Get useful information in first request and just template it here
+            gh pr view
+        else if test "$(echo $pr_state | jq '.state =="OPEN" and .isDraft == true')" = true
+            echo "PR created, waiting for checks to set as ready"
+            gh pr checks --watch && gh pr ready
+        else if test "$(echo $pr_state | jq '.state =="MERGED"')" = true
+            # TODO: Get useful information in first request and just template it here
+            echo "PR is already merged"
+            gh pr view
+        else
+            echo "Failed to determine state of PR"
+            echo $pr_state
+        end
     else if test $command = log
         _repo_log $args
     else if test $command = co-pr
