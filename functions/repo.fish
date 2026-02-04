@@ -60,6 +60,11 @@ function repo
     else if test $command = co-pr
         set template '{{range .}}{{tablerow (printf "%v" .number) (printf "@%v" .author.login) (truncate 60 .title) .reviewDecision (timeago .createdAt | printf "C: %v") }}{{end}}'
         gh pr list --json number,title,author,createdAt,reviewDecision --template $template | fzf --height "~10" | cut -f1 -d ' ' | xargs gh pr checkout
+        # Refresh main so that diffs are correct
+        _repo_main --refresh
+        set primary_branch (git symbolic-ref refs/remotes/origin/HEAD | cut -d '/' -f4)
+        # Visualise a diff based on the common ancestor
+        git difftool -d $primary_branch...HEAD
     else if test $command = merge
         _repo_merge $args
     else

@@ -1,7 +1,7 @@
 function _repo_switch
     set repo_status (git status --porcelain --untracked-files=no)
     if test -n "$repo_status"
-        read --prompt-str "Uncomitted changes found, stashing. Stash message: " --local message
+        read --prompt-str "Uncommitted changes found, stashing. Stash message: " --local message
         git stash --message "$message"
     end
     set git_branch_cmd "git branch --all --format='%(refname:short)'"

@@ -1,11 +1,10 @@
 function _repo_main
     argparse r/refresh -- $argv
+    set primary_branch (git symbolic-ref refs/remotes/origin/HEAD | cut -d '/' -f4)
 
     # Refresh just updates the current main branch to origin's main branch position without changing branch
     if set -q _flag_r
-        _repo_spin --title "Refreshing origin" -- git fetch origin main:main
-        or _repo_spin --title "Refreshing origin" -- git fetch origin master:master
-
+        _repo_spin --title "Refreshing origin" -- git fetch origin $primary_branch:$primary_branch
         return
     end
     set repo_status (git status --porcelain)

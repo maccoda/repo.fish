@@ -20,7 +20,7 @@ function _repo_feature
             return 1
         end
         set main_branch (git branch --show-current)
-        echo "Determined main branch is $main_branch"
+        echo "Determined primary branch is $main_branch"
         _repo_spin --title "Pulling latest changes..." -- git pull --ff --quiet origin $main_branch
     else
         echo "Creating new branch from current branch"
