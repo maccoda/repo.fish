@@ -59,11 +59,22 @@ function repo
         _repo_log $args
     else if test $command = co-pr
         set template '{{range .}}{{tablerow (printf "%v" .number) (printf "@%v" .author.login) (truncate 60 .title) .reviewDecision (timeago .createdAt | printf "C: %v") }}{{end}}'
-        gh pr list --json number,title,author,createdAt,reviewDecision --template $template | fzf --height "~10" | cut -f1 -d ' ' | xargs gh pr checkout
+        set pr_id (gh pr list --json number,title,author,createdAt,reviewDecision --template $template | fzf --height "~10" | cut -f1 -d ' ')
+        if test -z $pr_id
+            return 1
+        end
+        _repo_spin --title "Checking out PR $pr_id" -- gh pr checkout $pr_id
+        if set -q ZELLIJ
+            zellij run --direction right --width '25%' -- gh pr view
+            zellij action resize increase right
+            zellij action resize increase right
+            zellij action resize increase right
+            zellij action resize increase right
+        end
         # Refresh main so that diffs are correct
         _repo_main --refresh
-        set primary_branch (git symbolic-ref refs/remotes/origin/HEAD | cut -d '/' -f4)
         # Visualise a diff based on the common ancestor
+        set primary_branch (git symbolic-ref refs/remotes/origin/HEAD | cut -d '/' -f4)
         git difftool -d $primary_branch...HEAD
     else if test $command = merge
         _repo_merge $args
