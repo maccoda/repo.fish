@@ -13,6 +13,10 @@ function _repo_spin
     if set -q _flag_title
         set loading_text $_flag_title
     end
+    set --global _spin_status_code 0
+    function background_ended --on-process-exit $pid
+        set --global _spin_status_code $argv[3]
+    end
 
     # Heroku spinner options - https://github.com/heroku/heroku-cli-util/blob/main/lib/spinners.json
     set spin "⣾" "⣽" "⣻" "⢿" "⡿" "⣟" "⣯" "⣷"
@@ -30,4 +34,7 @@ function _repo_spin
     # \33[2K Clears entire line
     # \r returns cursor to the start of the line
     printf "\33[2K\r"
+    set --local return_value $_spin_status_code
+    set --erase _spin_status_code
+    return $return_value
 end

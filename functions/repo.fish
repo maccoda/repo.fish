@@ -64,6 +64,10 @@ function repo
             return 1
         end
         _repo_spin --title "Checking out PR $pr_id" -- gh pr checkout $pr_id
+        if test $status -ne 0
+            echo "Failed to checkout PR $pr_id"
+            return 1
+        end
         if set -q ZELLIJ
             zellij run --direction right --width '25%' -- gh pr view
             zellij action resize increase right
