@@ -70,6 +70,8 @@ function repo
         end
         if set -q ZELLIJ
             zellij run --direction right --width '25%' -- gh pr view
+            zellij action move-focus left
+            zellij action resize increase right
             zellij action resize increase right
             zellij action resize increase right
             zellij action resize increase right

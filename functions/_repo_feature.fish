@@ -42,6 +42,7 @@ function _repo_feature
         return 1
     end
     if test -n "$repo_status"
+        echo "Restoring stashed changes"
         git stash pop 2&>/dev/null
     end
 
